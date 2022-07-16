@@ -1,4 +1,4 @@
-package com.example.githubapi
+package com.example.githubapiapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
