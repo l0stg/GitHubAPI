@@ -29,9 +29,9 @@ class MainAdapter(private val itemClickListener: (ItemsGitHub)-> Unit, private v
                 tvDescription.text = item.description
                 tvIdItem.text = item.id.toString()
                 tvNameMain.text = item.name
-                tvOwnerLogin.text = item.owner?.login
+                tvOwnerLogin.text = item.owner.login
                 Glide.with(ivPerson.context)
-                    .load(item.owner?.avatar_url)
+                    .load(item.owner.avatar_url)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(ivPerson)
                 btnShare.setOnClickListener{
