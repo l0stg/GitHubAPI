@@ -13,17 +13,16 @@ import com.example.githubapiapplication.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
-    private val binding by viewBinding(FragmentDetailBinding::bind)
+    private val binding: FragmentDetailBinding by viewBinding()
     private var webView: WebView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val item = arguments?.getSerializable("Item") as ItemsGitHub
-        webView = binding.myWebView
-        webView?.webViewClient = WebViewClient()
-        webView?.settings?.javaScriptEnabled = true
-        webView?.loadUrl(item.html_url.toString())
+        with(binding) {
+            myWebView.webViewClient = WebViewClient()
+            myWebView.settings?.javaScriptEnabled = true
+            myWebView.loadUrl(item.html_url)
+        }
     }
-
-
 
 }
