@@ -13,48 +13,56 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.NavController
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.FragmentMainBinding
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private var binding: FragmentMainBinding? = null
+    private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel by viewModels<MainFragmentViewModel>()
     private var myAdapter: MainAdapter? = null
     private val router: NavController = NavController()
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding!!.root
-    }
+    private var itemsSwipeToRefresh: SwipeRefreshLayout? = null
+    private var isLoading = false
+    private var recyclerView: RecyclerView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
-        val itemsSwipeToRefresh = binding!!.swipeRefresh
-        var isLoading = false
 
-        itemsSwipeToRefresh.setOnRefreshListener {
-            viewModel.getAllItemList(0)
+        myAdapter = MainAdapter({
+            router.routeToDetailFragment(it, this.requireView())
+        }, {
+            shared(it)
+        })
 
+        with(binding){
+            itemsSwipeToRefresh = swipeRefresh
+            recyclerView = myRecyclerView
+            recyclerView?.layoutManager = LinearLayoutManager(activity)
+            recyclerView?.adapter = myAdapter
         }
+
+
+
+        itemsSwipeToRefresh?.setOnRefreshListener {
+            viewModel.getAllItemList(0)
+        }
+
         viewModel.list.observe(viewLifecycleOwner) {
             if (!isLoading) {
                 myAdapter!!.set(it)
-                itemsSwipeToRefresh.isRefreshing = false
+                itemsSwipeToRefresh?.isRefreshing = false
             } else {
                 myAdapter!!.addData(it)
                 isLoading = false
             }
         }
 
-        binding!!.myRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val visibleItemCount = layoutManager.childCount
@@ -69,19 +77,6 @@ class MainFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
-    }
-
-
-    private fun init(){
-        myAdapter = MainAdapter({
-            router.routeToDetailFragment(it, this.requireView())
-        }, {
-           shared(it)
-        })
-        binding?.apply {
-            myRecyclerView.layoutManager = LinearLayoutManager(activity)
-            myRecyclerView.adapter = myAdapter
-        }
     }
 
     private fun shared(item: ItemsGitHub){

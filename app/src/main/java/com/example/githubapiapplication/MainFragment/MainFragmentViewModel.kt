@@ -1,8 +1,5 @@
 package com.example.githubapiapplication.MainFragment
 
-import android.content.Intent
-import android.content.Intent.createChooser
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,18 +24,17 @@ class MainFragmentViewModel: ViewModel() {
     }
 
 
-
     fun getAllItemList(since: Int) {
-        mService.getItemList(since).enqueue(object : Callback<List<ItemsGitHub>> {
-            override fun onFailure(call: Call<List<ItemsGitHub>>, t: Throwable) {
-            }
-            override fun onResponse(call: Call<List<ItemsGitHub>>, response: Response<List<ItemsGitHub>>) {
-                viewModelScope.launch {
+        viewModelScope.launch {
+            mService.getItemList(since).enqueue(object : Callback<List<ItemsGitHub>> {
+                override fun onFailure(call: Call<List<ItemsGitHub>>, t: Throwable) {
+                }
+                override fun onResponse(call: Call<List<ItemsGitHub>>, response: Response<List<ItemsGitHub>>
+                ) {
                     val listData: List<ItemsGitHub> = response.body()!!
                     _list.postValue(listData)
                 }
-
-            }
-        })
+            })
+        }
     }
 }

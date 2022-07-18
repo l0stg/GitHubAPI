@@ -8,30 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.githubapiapplication.databinding.FragmentDetailBinding
 
-class DetailFragment : Fragment() {
+class DetailFragment : Fragment(R.layout.fragment_detail) {
 
-    private var binding: FragmentDetailBinding? = null
-    private  var webView: WebView? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDetailBinding.inflate(inflater, container, false)
-        return binding!!.root
-    }
+    private val binding by viewBinding(FragmentDetailBinding::bind)
+    private var webView: WebView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val item = arguments?.getSerializable("Item") as ItemsGitHub
-
-        webView = binding?.myWebView
+        webView = binding.myWebView
         webView?.webViewClient = WebViewClient()
-        // включаем поддержку JavaScript
-        webView?.getSettings()?.setJavaScriptEnabled(true)
-        // указываем страницу загрузки
+        webView?.settings?.javaScriptEnabled = true
         webView?.loadUrl(item.html_url.toString())
     }
 

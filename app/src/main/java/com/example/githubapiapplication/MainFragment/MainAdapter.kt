@@ -2,13 +2,14 @@ package com.example.githubapiapplication.MainFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ExpandableListView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.ItemRecyclerViewBinding
 
-class MainAdapter(val OnClickItem: (ItemsGitHub)-> Unit, val OnClickBtnShare: (ItemsGitHub) -> Unit ): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(private val itemClickListener: (ItemsGitHub)-> Unit, private val shareClickListener: (ItemsGitHub) -> Unit ): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var itemList: MutableList<ItemsGitHub> = mutableListOf()
 
@@ -22,8 +23,8 @@ class MainAdapter(val OnClickItem: (ItemsGitHub)-> Unit, val OnClickBtnShare: (I
         notifyDataSetChanged()
     }
 
-    inner class MainViewHolder(private val itemBinding: ItemRecyclerViewBinding): RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(item: ItemsGitHub){
+    class MainViewHolder(private val itemBinding: ItemRecyclerViewBinding): RecyclerView.ViewHolder(itemBinding.root) {
+        fun bind(item: ItemsGitHub, shareClickListener: (ItemsGitHub) -> Unit, itemClickListener: (ItemsGitHub) -> Unit){
             itemBinding.apply{
                 tvDescription.text = item.description
                 tvIdItem.text = item.id.toString()
@@ -34,10 +35,10 @@ class MainAdapter(val OnClickItem: (ItemsGitHub)-> Unit, val OnClickBtnShare: (I
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(ivPerson)
                 btnShare.setOnClickListener{
-                    OnClickBtnShare(item)
+                    shareClickListener(item)
                 }
                 root.setOnClickListener {
-                    OnClickItem(item)
+                    itemClickListener(item)
                 }
             }
 
@@ -51,7 +52,7 @@ class MainAdapter(val OnClickItem: (ItemsGitHub)-> Unit, val OnClickBtnShare: (I
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val item: ItemsGitHub = itemList[position]
-        holder.bind(item)
+        holder.bind(item, shareClickListener, itemClickListener)
     }
 
     override fun getItemCount(): Int = itemList.size
