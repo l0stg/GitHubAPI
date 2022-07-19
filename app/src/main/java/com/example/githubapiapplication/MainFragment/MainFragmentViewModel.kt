@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.screens.Screens
+import com.example.githubapiapplication.screens.Screens.router
 import com.example.myapplicationapi.Data.Retrofit.Common
 import com.example.myapplicationapi.Data.Retrofit.RetrofitServices
 import com.github.terrakok.cicerone.Router
@@ -15,7 +16,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainFragmentViewModel(
-    private val router: Router
 ): ViewModel() {
 
 

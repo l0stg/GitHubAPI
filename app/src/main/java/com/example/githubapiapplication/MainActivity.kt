@@ -3,14 +3,13 @@ package com.example.githubapiapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.example.githubapiapplication.screens.Screens.navigatorHolder
+
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import org.koin.android.ext.android.inject
 
-
 class MainActivity : AppCompatActivity() {
-
-    private val navigatorHolder by inject<NavigatorHolder>()
 
     private val viewModel by viewModels<MainViewModel>()
 
