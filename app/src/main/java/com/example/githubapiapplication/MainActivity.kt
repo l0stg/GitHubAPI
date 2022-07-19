@@ -11,11 +11,10 @@ import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.AppNavigator
 
+
 class MainActivity : AppCompatActivity() {
 
-    private val cicerone = Cicerone.create()
     private val viewModel by viewModels<MainViewModel>()
-    private val navigatorHolder get() = cicerone.getNavigatorHolder()
 
     private val navigator by lazy {
         AppNavigator(this, R.id.contentFrame)

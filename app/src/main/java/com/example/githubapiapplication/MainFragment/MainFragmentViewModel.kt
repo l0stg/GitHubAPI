@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.MainViewModel
+import com.example.githubapiapplication.router
 import com.example.githubapiapplication.screens.Screens
 import com.example.myapplicationapi.Data.Retrofit.Common
 import com.example.myapplicationapi.Data.Retrofit.RetrofitServices

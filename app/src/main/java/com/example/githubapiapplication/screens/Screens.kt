@@ -7,6 +7,6 @@ object Screens {
 
     fun getDetailFragment(urlit: String) = FragmentScreen { DetailesFragment.getInstance(urlit) }
 
-    fun getMainFragment() =  { MainFragment.newInstance() }
+    fun getMainFragment() =  FragmentScreen {MainFragment.newInstance()}
 
 }
