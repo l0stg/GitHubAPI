@@ -1,43 +1,43 @@
 package com.example.githubapiapplication.MainFragment
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.githubapiapplication.ItemsGitHub
-import com.example.githubapiapplication.NavController
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.FragmentMainBinding
+import com.github.terrakok.cicerone.Router
+
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding: FragmentMainBinding by viewBinding()
     private val viewModel by viewModels<MainFragmentViewModel>()
     private var myAdapter: MainAdapter? = null
-    private val router: NavController = NavController()
     private var itemsSwipeToRefresh: SwipeRefreshLayout? = null
     private var isLoading = false
     private var recyclerView: RecyclerView? = null
+
+    companion object {
+        fun newInstance() = MainFragment()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         myAdapter = MainAdapter({
-            router.routeToDetailFragment(it, this.requireView())
+            viewModel.routeToDetail(it.html_url)
         }, {
             shared(it)
         })
+
+
 
         with(binding){
             itemsSwipeToRefresh = swipeRefresh
