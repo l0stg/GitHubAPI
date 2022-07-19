@@ -6,9 +6,10 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 
 open class MainViewModel(
+    val router: Router = Router()
 ) : ViewModel() {
 
-    val router: Router = Router()
+
 
     fun create() {
         router.newRootScreen(Screens.getMainFragment())
