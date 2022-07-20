@@ -29,15 +29,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         myAdapter = MainAdapter({
             viewModel.routeToDetail(it.html_url)
         }, {
-            shared(it)
+          startActivity(viewModel.shared(it))
         })
-
-
 
         with(binding){
             itemsSwipeToRefresh = swipeRefresh
@@ -72,17 +68,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         isLoading = true
                     }
                 }
-
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
-    }
-
-    private fun shared(item: ItemsGitHub){
-        val intent= Intent()
-        intent.action=Intent.ACTION_SEND
-        intent.putExtra(Intent.EXTRA_TEXT,item.html_url)
-        intent.type="text/plain"
-        startActivity(Intent.createChooser(intent,"Share To:"))
     }
 }

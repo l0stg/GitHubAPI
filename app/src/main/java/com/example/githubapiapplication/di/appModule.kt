@@ -12,9 +12,4 @@ val appModule = module {
     single { cicerone.router }
     single { cicerone.getNavigatorHolder() }
 
-
-   /* viewModel{ MainViewModel(get()) }
-    viewModel{ MainFragmentViewModel(get()) }*/
-
-
 }

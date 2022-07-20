@@ -1,9 +1,9 @@
 package com.example.githubapiapplication.MainFragment
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.screens.Screens
 import com.example.githubapiapplication.screens.Screens.router
@@ -33,7 +33,6 @@ class MainFragmentViewModel(
     }
 
     fun getAllItemList(since: Int) {
-        viewModelScope.launch {
             mService.getItemList(since).enqueue(object : Callback<List<ItemsGitHub>> {
                 override fun onFailure(call: Call<List<ItemsGitHub>>, t: Throwable) {
                 }
@@ -43,6 +42,13 @@ class MainFragmentViewModel(
                     _list.postValue(listData)
                 }
             })
-        }
+    }
+
+    fun shared(item: ItemsGitHub): Intent? {
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.putExtra(Intent.EXTRA_TEXT, item.html_url)
+        intent.type = "text/plain"
+        return Intent.createChooser(intent, "Share To:")
     }
 }
