@@ -2,14 +2,18 @@ package com.example.githubapiapplication.MainFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ExpandableListView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.ItemRecyclerViewBinding
+import com.example.githubapiapplication.MainFragment.share as share
 
-class MainAdapter(private val itemClickListener: (ItemsGitHub)-> Unit, private val shareClickListener: (ItemsGitHub) -> Unit ): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+sealed class Click()
+class share(val item: ItemsGitHub): Click()
+class open(val item: ItemsGitHub): Click()
+
+class MainAdapter(private val ClickListener: (click: String, it: ItemsGitHub) -> Unit): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private val itemList: MutableList<ItemsGitHub> = mutableListOf()
 
@@ -25,7 +29,7 @@ class MainAdapter(private val itemClickListener: (ItemsGitHub)-> Unit, private v
     }
 
     class MainViewHolder(private val itemBinding: ItemRecyclerViewBinding): RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(item: ItemsGitHub, shareClickListener: (ItemsGitHub) -> Unit, itemClickListener: (ItemsGitHub) -> Unit){
+        fun bind(item: ItemsGitHub, ClickListener: (Click: String, it: ItemsGitHub) -> Unit){
             itemBinding.apply{
                 tvDescription.text = item.description
                 tvIdItem.text = item.id.toString()
@@ -36,10 +40,10 @@ class MainAdapter(private val itemClickListener: (ItemsGitHub)-> Unit, private v
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(ivPerson)
                 btnShare.setOnClickListener{
-                    shareClickListener(item)
+                    ClickListener("share", item)//переделать на sealed class
                 }
                 root.setOnClickListener {
-                    itemClickListener(item)
+                    ClickListener("open", item)//переделать на sealed class
                 }
             }
 
@@ -53,7 +57,7 @@ class MainAdapter(private val itemClickListener: (ItemsGitHub)-> Unit, private v
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val item: ItemsGitHub = itemList[position]
-        holder.bind(item, shareClickListener, itemClickListener)
+        holder.bind(item, ClickListener)
     }
 
     override fun getItemCount(): Int = itemList.size

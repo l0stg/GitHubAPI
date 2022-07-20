@@ -1,18 +1,15 @@
 package com.example.githubapiapplication.MainFragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.FragmentMainBinding
-import com.github.terrakok.cicerone.Router
 
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -23,11 +20,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var isLoading = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        myAdapter = MainAdapter({
-            viewModel.routeToDetail(it.html_url)
-        }, {
-          startActivity(viewModel.shared(it))
-        })
+        myAdapter = MainAdapter{click: String, it: ItemsGitHub ->
+            if (click == "open"){
+            viewModel.routeToDetail(it.html_url)}
+            else startActivity(viewModel.shared(it))
+        }
 
         with(binding) {
             myRecyclerView.layoutManager = LinearLayoutManager(activity)
