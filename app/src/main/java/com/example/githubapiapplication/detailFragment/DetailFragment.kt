@@ -29,7 +29,7 @@ class DetailesFragment : Fragment(R.layout.fragment_detail) {
     }
 
     private val data: String by lazy {
-        (arguments?.getString(DATA)) ?: String()
+        (arguments?.getString(DATA)) ?: ""
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

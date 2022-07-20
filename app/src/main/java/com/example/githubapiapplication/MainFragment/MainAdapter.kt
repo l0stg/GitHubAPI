@@ -11,10 +11,11 @@ import com.example.githubapiapplication.databinding.ItemRecyclerViewBinding
 
 class MainAdapter(private val itemClickListener: (ItemsGitHub)-> Unit, private val shareClickListener: (ItemsGitHub) -> Unit ): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
-    private var itemList: MutableList<ItemsGitHub> = mutableListOf()
+    private val itemList: MutableList<ItemsGitHub> = mutableListOf()
 
     fun set(newList: List<ItemsGitHub>){
-        this.itemList = newList.toMutableList()
+        this.itemList.clear()
+        this.itemList.addAll(newList.toMutableList())
         notifyDataSetChanged()
     }
 
