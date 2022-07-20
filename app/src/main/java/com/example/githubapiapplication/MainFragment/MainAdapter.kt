@@ -7,12 +7,11 @@ import com.bumptech.glide.Glide
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.ItemRecyclerViewBinding
-import com.example.githubapiapplication.MainFragment.open as open
-import com.example.githubapiapplication.MainFragment.share as share
+
 
 sealed class Click()
-class share(val item: ItemsGitHub): Click()
-class open(val item: ItemsGitHub): Click()
+class Share(val item: ItemsGitHub): Click()
+class Open(val item: ItemsGitHub): Click()
 
 class MainAdapter(private val ClickListener: (click: Click) -> Unit): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
@@ -41,10 +40,10 @@ class MainAdapter(private val ClickListener: (click: Click) -> Unit): RecyclerVi
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(ivPerson)
                 btnShare.setOnClickListener{
-                    ClickListener(share(item))//переделать на sealed class
+                    ClickListener(Share(item))//переделать на sealed class
                 }
                 root.setOnClickListener {
-                    ClickListener(open(item))//переделать на sealed class
+                    ClickListener(Open(item))//переделать на sealed class
                 }
             }
 

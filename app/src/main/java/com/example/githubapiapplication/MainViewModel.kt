@@ -9,7 +9,7 @@ import com.github.terrakok.cicerone.Router
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
-open class MainViewModel(
+class MainViewModel(
 ) : ViewModel() {
 
     fun create() {
