@@ -7,13 +7,14 @@ import com.bumptech.glide.Glide
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.ItemRecyclerViewBinding
+import com.example.githubapiapplication.MainFragment.open as open
 import com.example.githubapiapplication.MainFragment.share as share
 
 sealed class Click()
 class share(val item: ItemsGitHub): Click()
 class open(val item: ItemsGitHub): Click()
 
-class MainAdapter(private val ClickListener: (click: String, it: ItemsGitHub) -> Unit): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(private val ClickListener: (click: Click) -> Unit): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private val itemList: MutableList<ItemsGitHub> = mutableListOf()
 
@@ -29,7 +30,7 @@ class MainAdapter(private val ClickListener: (click: String, it: ItemsGitHub) ->
     }
 
     class MainViewHolder(private val itemBinding: ItemRecyclerViewBinding): RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(item: ItemsGitHub, ClickListener: (Click: String, it: ItemsGitHub) -> Unit){
+        fun bind(item: ItemsGitHub, ClickListener: (click: Click) -> Unit){
             itemBinding.apply{
                 tvDescription.text = item.description
                 tvIdItem.text = item.id.toString()
@@ -40,10 +41,10 @@ class MainAdapter(private val ClickListener: (click: String, it: ItemsGitHub) ->
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(ivPerson)
                 btnShare.setOnClickListener{
-                    ClickListener("share", item)//переделать на sealed class
+                    ClickListener(share(item))//переделать на sealed class
                 }
                 root.setOnClickListener {
-                    ClickListener("open", item)//переделать на sealed class
+                    ClickListener(open(item))//переделать на sealed class
                 }
             }
 

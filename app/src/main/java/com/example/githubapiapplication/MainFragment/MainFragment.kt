@@ -20,10 +20,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var isLoading = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        myAdapter = MainAdapter{click: String, it: ItemsGitHub ->
-            if (click == "open"){
-            viewModel.routeToDetail(it.html_url)}
-            else startActivity(viewModel.shared(it))
+        myAdapter = MainAdapter { click: Click ->
+            when (click) {
+                is open -> viewModel.routeToDetail(click.item.html_url)
+                is share -> startActivity(viewModel.shared(click.item))
+            }
         }
 
         with(binding) {
