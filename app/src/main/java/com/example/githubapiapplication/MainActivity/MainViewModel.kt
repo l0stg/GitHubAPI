@@ -1,15 +1,12 @@
-package com.example.githubapiapplication
+package com.example.githubapiapplication.MainActivity
 
 import androidx.lifecycle.ViewModel
 import com.example.githubapiapplication.screens.Screens
-import com.example.githubapiapplication.screens.Screens.router
-
-
 import com.github.terrakok.cicerone.Router
-import org.koin.java.KoinJavaComponent
-import org.koin.java.KoinJavaComponent.inject
+
 
 class MainViewModel(
+    private val router: Router
 ) : ViewModel() {
 
     fun create() {

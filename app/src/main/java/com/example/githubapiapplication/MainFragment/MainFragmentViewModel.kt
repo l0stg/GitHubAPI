@@ -1,36 +1,47 @@
 package com.example.githubapiapplication.MainFragment
 
 import android.content.Intent
+import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.screens.Screens
-import com.example.githubapiapplication.screens.Screens.router
 import com.example.myapplicationapi.Data.Retrofit.Common
+import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.inject
 
-class MainFragmentViewModel(
+class MainFragmentViewModel(val router: Router
 ): ViewModel() {
 
-
     private val mService = Common()
-    private val _list: MutableLiveData<List<ItemsGitHub>> = MutableLiveData()
-    val list: LiveData<List<ItemsGitHub>> = _list
+    private val _list: MutableLiveData<MutableList<ItemsGitHub>> = MutableLiveData()
+    val list: LiveData<MutableList<ItemsGitHub>> = _list
 
     init {
-        getAllItemList(0)
+        loadData(0)
     }
+
+    fun pullToRefresh(){
+        loadData(0)
+    }
+
+    fun loadMoreData(){
+
+    }
+
+    private fun loadData(since: Int){
+        viewModelScope.launch {
+            _list.postValue(mService.getItem(since)?.toMutableList())
+        }
+    }
+
 
     fun routeToDetail(url: String){
         router.navigateTo(Screens.getDetailFragment(url))
-    }
-
-    fun getAllItemList(since: Int) {
-        viewModelScope.launch {
-         _list.postValue(mService.getItem(since))
-        }
     }
 
     fun shared(item: ItemsGitHub): Intent? {

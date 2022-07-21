@@ -3,6 +3,7 @@ package com.example.githubapiapplication.MainFragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import com.example.githubapiapplication.databinding.FragmentMainBinding
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding: FragmentMainBinding by viewBinding()
-    private val viewModel by viewModels<MainFragmentViewModel>()
+    private val viewModel: MainFragmentViewModel by viewModels()
     private var myAdapter: MainAdapter? = null
     private var isLoading = false
 
@@ -31,7 +32,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             myRecyclerView.layoutManager = LinearLayoutManager(activity)
             myRecyclerView.adapter = myAdapter
             swipeRefresh.setOnRefreshListener {
-                viewModel.getAllItemList(0)
+                viewModel.pullToRefresh()
             }
 
             binding.myRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -42,7 +43,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     val total = myAdapter!!.itemCount
                     if (!isLoading) {
                         if ((visibleItemCount + pastVisibleItem) >= total) {
-                            viewModel.list.value?.last()?.id?.let { viewModel.getAllItemList(it) }
+                           // viewModel.list.value?.last()?.id?.let { viewModel.getAllItemList(it) }
                             isLoading = true
                         }
                     }
