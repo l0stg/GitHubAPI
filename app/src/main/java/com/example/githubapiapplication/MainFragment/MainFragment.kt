@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.githubapiapplication.ItemsGitHub
+import com.example.githubapiapplication.MainActivity.MainViewModel
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.FragmentMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding: FragmentMainBinding by viewBinding()
-    private val viewModel: MainFragmentViewModel by viewModels()
+    private val viewModel by viewModel<MainFragmentViewModel>()
     private var myAdapter: MainAdapter? = null
     private var isLoading = false
 

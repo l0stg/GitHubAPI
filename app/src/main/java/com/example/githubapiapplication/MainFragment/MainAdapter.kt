@@ -40,10 +40,10 @@ class MainAdapter(private val ClickListener: (click: Click) -> Unit): RecyclerVi
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(ivPerson)
                 btnShare.setOnClickListener{
-                    ClickListener(Share(item))//переделать на sealed class
+                    ClickListener(Share(item))
                 }
                 root.setOnClickListener {
-                    ClickListener(Open(item))//переделать на sealed class
+                    ClickListener(Open(item))
                 }
             }
 
@@ -61,5 +61,4 @@ class MainAdapter(private val ClickListener: (click: Click) -> Unit): RecyclerVi
     }
 
     override fun getItemCount(): Int = itemList.size
-
 }

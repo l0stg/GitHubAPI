@@ -42,7 +42,6 @@ class DetailesFragment : Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             myWebView.webViewClient = WebViewClient()
-            myWebView.settings?.javaScriptEnabled = true
             binding.myWebView.loadUrl(data)
         }
     }
