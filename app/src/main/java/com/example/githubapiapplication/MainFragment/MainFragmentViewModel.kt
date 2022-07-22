@@ -2,6 +2,8 @@ package com.example.githubapiapplication.MainFragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,12 +16,14 @@ import com.github.terrakok.cicerone.Router
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent.inject
 
-class MainFragmentViewModel(val router: Router
+class MainFragmentViewModel(
+    private val router: Router
 ): ViewModel() {
 
     private val mService = Common()
-    private val _list: MutableLiveData<MutableList<ItemsGitHub>> = MutableLiveData()
-    val list: LiveData<MutableList<ItemsGitHub>> = _list
+    private val _list: MutableLiveData<List<ItemsGitHub>> = MutableLiveData()
+    val list: LiveData<List<ItemsGitHub>> = _list
+    private val fakeList: List<ItemsGitHub> = listOf()
 
     init {
         loadData(0)
@@ -30,12 +34,13 @@ class MainFragmentViewModel(val router: Router
     }
 
     fun loadMoreData(){
+        list.value?.last()?.id?.let { loadData(it) } ?: loadData(0)
 
     }
 
-    private fun loadData(since: Int){
+    private fun loadData(since: Int) {
         viewModelScope.launch {
-            _list.postValue(mService.getItem(since)?.toMutableList())
+            _list.postValue(mService.getItem(since))
         }
     }
 

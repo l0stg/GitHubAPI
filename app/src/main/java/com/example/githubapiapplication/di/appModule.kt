@@ -15,4 +15,5 @@ val appModule = module {
     viewModel{MainFragmentViewModel(get())}
     viewModel{MainViewModel(get())}
 
+
 }

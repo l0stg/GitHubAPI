@@ -10,13 +10,4 @@ object RetrofitClient {
 
     val api: RetrofitServices = retrofit.create(RetrofitServices::class.java)
 
-/*    fun getClient(): Retrofit {
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-        return retrofit!!
-    }*/
 }

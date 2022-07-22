@@ -8,7 +8,6 @@ import com.example.githubapiapplication.ItemsGitHub
 import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.ItemRecyclerViewBinding
 
-
 sealed class Click()
 class Share(val item: ItemsGitHub): Click()
 class Open(val item: ItemsGitHub): Click()

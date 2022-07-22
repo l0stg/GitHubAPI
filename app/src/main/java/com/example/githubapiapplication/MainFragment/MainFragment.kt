@@ -14,7 +14,6 @@ import com.example.githubapiapplication.R
 import com.example.githubapiapplication.databinding.FragmentMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding: FragmentMainBinding by viewBinding()
@@ -29,7 +28,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 is Share -> startActivity(viewModel.shared(it.item))
             }
         }
-
         with(binding) {
             myRecyclerView.layoutManager = LinearLayoutManager(activity)
             myRecyclerView.adapter = myAdapter
@@ -45,7 +43,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     val total = myAdapter!!.itemCount
                     if (!isLoading) {
                         if ((visibleItemCount + pastVisibleItem) >= total) {
-                           // viewModel.list.value?.last()?.id?.let { viewModel.getAllItemList(it) }
+                            viewModel.loadMoreData()
                             isLoading = true
                         }
                     }
